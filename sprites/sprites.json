@@ -1,0 +1,9 @@
+{
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	// sprites/sprites_screen_overlay.png			 //
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+	
+	// Screen overlay
+	"screen_dim_overlay": { "File": "sprites/sprites_screen_overlay.png", "Rect": "0,0,1,1", "Center": "0,0" },
+	"screen_dim_overlay_400": { "File": "sprites/sprites_screen_overlay.png", "Rect": "1,1,400,224", "Center": "0,0" }
+}

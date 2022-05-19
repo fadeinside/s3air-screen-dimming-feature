@@ -1,0 +1,4 @@
+// Screen dimming
+global u8 screen.dimming.show	// Set to 0x01 when dimming is active
+global s32 screen.dimming.timer	// Timer waiting before dimming is activated
+global s32 screen.dimming.alpha	// Alpha of the overlay sprite

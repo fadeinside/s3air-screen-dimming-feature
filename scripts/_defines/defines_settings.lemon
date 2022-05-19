@@ -1,0 +1,4 @@
+// Settings
+global u8 SETTING_SCREEN_DIMMING_ENABLE	// Set to 0x01 when screen dimming feature is enabled
+global s32 SETTING_SCREEN_DIMMING_HOW_LONG	// Sets a limit for the waiting timer after which dimming will be active
+global u8 SETTING_SCREEN_DIMMING_RENDERING	// Screen dimming rendering method (0x00 - By sprite 400 x 224 (Default), 0x01 - By screen size (Hardware only))

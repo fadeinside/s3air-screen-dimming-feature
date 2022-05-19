@@ -1,0 +1,114 @@
+//? The main function of updating the dimming screen.
+function void ScreenDimming.update()
+{
+	// Only if the screen dimming option is enabled
+	if !(SETTING_SCREEN_DIMMING_ENABLE)
+		return
+	
+	// While dimming is not active
+	if !(screen.dimming.show)
+	{
+		// Add a value to the timer, if necessary
+		if !(ScreenDimming.notNecessary())
+			++screen.dimming.timer
+		
+		// Reduce alpha if it is not equal to 0
+		if (screen.dimming.alpha > 0x00)
+			screen.dimming.alpha -= 0x05
+		
+		// Forcibly assign 0 to alpha
+		if (screen.dimming.timer > 180)
+			screen.dimming.alpha = 0x00
+	}
+	else
+	{
+		// Add value to alpha
+		if (screen.dimming.alpha < 140)
+			screen.dimming.alpha += 0x05
+	}
+	
+	// Determine the real value of the waiting limit.
+	// - If the dimming timer is greater than the limit, then set the value 0x01 for the variable
+	s32 howLong = SETTING_SCREEN_DIMMING_HOW_LONG * 60
+	if (screen.dimming.timer >= howLong)
+		screen.dimming.show = 0x01
+	
+	// Control update
+	ScreenDimming.controlUpdate()
+	
+	// Show overlay if alpha is not equal to 0
+	if (screen.dimming.alpha != 0x00)
+		ScreenDimming.overlay()
+	
+	//debugLog(stringformat("%d / %d, %d, %d", screen.dimming.timer, howLong, screen.dimming.show, screen.dimming.alpha))
+}
+
+// For modders:
+// - If your mod uses custom intro, or there are invents for which it is better not to use screen dimming, then following this example, add the function to your mod and use it above.
+/*
+function bool ScreenDimming.notNecessary()
+{
+	// Ray intro
+	if (isRayIntro() && global.game_mode == 0x0c)
+		return true
+	
+	// Return the base function
+	return base.ScreenDimming.notNecessary()
+}
+*/
+
+//? Determine when screen dimming is not necessary in some cases.
+function bool ScreenDimming.notNecessary()
+{
+	// Sonic intro
+	if (isSonicIntro() && global.game_mode == 0x0c)
+		return true
+	
+	// Special Stage
+	if (global.game_mode == 0x34 && !global.game.paused)
+		return true
+	
+	// Default return value
+	return false
+}
+
+//? Checking user control clicks
+function void ScreenDimming.controlUpdate()
+{
+	// Determine which control to use. During the game on the levels, state will be used (press and hold), otherwise only the first touch
+	u8 control = global.game_mode == 0x0c ? (control.pad1.state || control.pad2.state) : (control.pad1.pressed || control.pad2.pressed)
+	
+	bool dpad_pressed = control & CONTROL_DPAD
+	bool abc_pressed = (control & CONTROL_ABC) || Input.buttonPressed(BUTTON_Y)
+	bool start_pressed = control & CONTROL_START
+	
+	bool datasel_pressed = (control & DataSelect.CONTROLS_ACCEPT) || (control & DataSelect.CONTROLS_CANCEL)
+	
+	// Reset dimming for any listed match
+	if (dpad_pressed || abc_pressed || start_pressed || datasel_pressed || ScreenDimming.notNecessary())
+		ScreenDimming.reset()
+}
+
+//? Resets the screnn dimming.
+function void ScreenDimming.reset()
+{
+	screen.dimming.show = 0x00
+	screen.dimming.timer = 0x00
+}
+
+//? The sprite that will be rendered when screen dimming.
+function void ScreenDimming.overlay()
+{
+	// The method of rendering a single solid sprite 400 x 224 is used
+	if (SETTING_SCREEN_DIMMING_RENDERING == 0x00)
+	{
+		Renderer.drawCustomSprite("screen_dim_overlay_400", getScreenExtend() - 40, 0x00, 0x00, SPRITE_FLAG_PRIO, 0xffff, 0x00, screen.dimming.alpha)
+		
+		// Finish the function on this
+		return
+	}
+	
+	// The method of rendering a single pixel is used, which is stretched across the width and height of the screen (Hardware only)
+	s32 alpha = 0xffffff + (0x01000000 * screen.dimming.alpha)
+	Renderer.drawCustomSpriteWithTransform("screen_dim_overlay", 0x00, 0x00, 0x00, SPRITE_FLAG_PRIO, 0xffff, alpha, 0x10000 * s32(getScreenWidth()), 0x00, 0x00, 0x10000 * s32(getScreenWidth()))
+}

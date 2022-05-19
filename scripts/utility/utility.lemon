@@ -1,0 +1,19 @@
+//@ Function taken from sonic3air_dev/scripts/standalone/standalone.lemon
+function void waitForNextFrame()
+{
+	// Call the base function
+	base.waitForNextFrame()
+	
+	// Dimming update
+	ScreenDimming.update()
+}
+
+//? Overload function from Blue Sphere Time Attack.
+function void BlueSpheresTimer.waitForNextFrame()
+{
+	// Call the base function
+	base.BlueSpheresTimer.waitForNextFrame()
+	
+	// Dimming update
+	ScreenDimming.update()
+}

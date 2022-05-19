@@ -1,0 +1,60 @@
+{
+	"Metadata":
+	{
+		"Name": "Screen Dimming Feature",
+		"Author": "FadeInside",
+		"Description": "Idle screen dimming feature from Sonic Mania Plus for Sonic 3 A.I.R.",
+		"URL": "https://github.com/fadeinside/s3air-screen-dimming-feature/",
+		"ModVersion": "v1.0",
+		"GameVersion": "21.09.28.0"
+	},
+	"Settings":
+	{
+		"List":
+		[
+			{
+				"Category": "Screen dimming",
+				"InternalName": "SETTING_SCREEN_DIMMING_ENABLE",
+				"DisplayName": "Screen dimming:",
+				"Variable": "SETTING_SCREEN_DIMMING_ENABLE",
+				"DefaultValue": "1",
+				"Options":
+				{
+					"0": "Disabled",
+					"1": "Enable (Default)"
+				}
+			},
+			{
+				"Category": "Screen dimming",
+				"InternalName": "SETTING_SCREEN_DIMMING_HOW_LONG",
+				"DisplayName": "How long it takes:",
+				"Variable": "SETTING_SCREEN_DIMMING_HOW_LONG",
+				"DefaultValue": "60",
+				"Options":
+				{
+					"10": "10 seconds",
+					"15": "15 seconds",
+					"20": "20 seconds",
+					"30": "30 seconds",
+					"40": "40 seconds",
+					"50": "50 seconds",
+					"60": "60 seconds (Default)",
+					"120": "120 seconds",
+					"300": "300 seconds"
+				}
+			},
+			{
+				"Category": "Screen dimming",
+				"InternalName": "SETTING_SCREEN_DIMMING_RENDERING",
+				"DisplayName": "Rendering:",
+				"Variable": "SETTING_SCREEN_DIMMING_RENDERING",
+				"DefaultValue": "0",
+				"Options":
+				{
+					"0": "400 x 224 (Default)",
+					"1": "By screen size (Hardware only)"
+				}
+			}
+		]
+	}
+}
